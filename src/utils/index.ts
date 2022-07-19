@@ -1,11 +1,20 @@
-interface CFG {
-    context: GPUCanvasContext
-    canvas: HTMLCanvasElement
-    format: GPUTextureFormat
-    device: GPUDevice
+export const rgba = (
+    r: number, 
+    g: number, 
+    b: number, 
+    a: number = 1) => {
+    return {r, g, b, a}
 }
 
-export default async (): Promise<CFG> => {
+export const wgpurgba = (
+    r: number, 
+    g: number, 
+    b: number, 
+    a: number = 1): string => {
+    return `(${r}, ${g}, ${b}, ${a})`
+}
+
+export const initGPU = async (): Promise<CFG> => {
     const canvas = document.createElement('canvas')
     document.body.appendChild(canvas)
     canvas.width = innerWidth * devicePixelRatio
@@ -13,14 +22,14 @@ export default async (): Promise<CFG> => {
 
     const instance = (await navigator.gpu.requestAdapter({
         powerPreference: "high-performance",
-        forceFallbackAdapter:  false
+        forceFallbackAdapter:  false,
     }))!
 
     const device = await instance.requestDevice()
     const format = navigator.gpu.getPreferredCanvasFormat()
 
     const context = canvas.getContext('webgpu')!
-    context.configure({device, format})
+    context.configure({device, format, alphaMode: 'opaque'})
 
     return {context, canvas, format, device}
-} 
+}

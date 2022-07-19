@@ -17,5 +17,5 @@
     "skipLibCheck": true,
     "types": ["@webgpu/types"]
   },
-  "include": ["src"]
+  "include": ["src", "index.d.ts"]
 }
