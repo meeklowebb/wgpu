@@ -6,3 +6,5 @@ declare interface CFG {
     format: GPUTextureFormat
     device: GPUDevice
 }
+
+declare type InitGPUFunction = () => Promise<CFG>
