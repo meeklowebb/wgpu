@@ -1,3 +1,5 @@
+// Copyright 2022 Michelangelo Webb. All rights reserved.
+
 import { describe, it, expect } from 'vitest'
 import { setHex} from '../../src/utils'
 

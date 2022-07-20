@@ -16,9 +16,7 @@ export const wgpurgba = (
     return `(${r}, ${g}, ${b}, ${a})`
 }
 
-export const initGPU = async (): Promise<CFG> => {
-    const canvas = document.createElement('canvas')
-    document.body.appendChild(canvas)
+export const initGPU = async (canvas: HTMLCanvasElement): Promise<CFG> => {
     canvas.width = innerWidth * devicePixelRatio
     canvas.height = innerHeight * devicePixelRatio
 

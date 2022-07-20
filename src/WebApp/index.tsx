@@ -1,45 +1,48 @@
 // Copyright 2022 Michelangelo Webb. All rights reserved.
 
 import Canvas from "./components/Canvas"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import simpleTriangle from "../examples/simpleTriangle"
-import { initGPU } from "../utils"
 
 export default () => {
 
-    const [state, setState] = useState({
-        render: simpleTriangle,
-        initGPU,
-        bg: 'red',
-        triangleColor: 'blue'
-    })
+    const [bg, setBG] = useState('#FFFFFF') // GPUCanvas Background
+    const [tc, setTC] = useState('#FFFF00') // GPUWSGL Triangle Color
 
-    const canvasref = useRef(null);
+    const canvasref = useRef<HTMLCanvasElement>(null);
+
+    useEffect(() => {
+        simpleTriangle({
+            canvas: canvasref.current!,
+            bg,
+            tc,
+        })
+    }, [bg, tc])
 
     const onBGChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
-        console.log(e.currentTarget.value);
-        setState(state => ({
-            ...state,
-            bg: e.currentTarget.value
-        }))
+        setBG(e.target.value)
     }
 
     const onTriangleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
-        console.log(e.currentTarget.value);
-        setState(state => ({
-            ...state,
-            triangleColor: e.currentTarget.value
-        }))
+        setTC(e.target.value)
     }
 
     return (
         <>
             <h1>Hola</h1>
-            <input type="color"  onChange={onTriangleColorChange}/>
-            <input type="color" onChange={onBGChange}/>
-            <Canvas {...state} canvasref={canvasref}/>
+            <input 
+            type="color" 
+            onChange={onTriangleColorChange}
+            value={tc}
+            />
+            <input 
+            type="color" 
+            onChange={onBGChange}
+            value={bg}
+            />
+            <Canvas canvasref={canvasref}/>
         </>
     )
 }

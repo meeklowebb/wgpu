@@ -4,9 +4,19 @@
 import { wgpurgba, initGPU } from '../utils/'
 import { generateShaderColor } from '../shaders'
 
-export default async (background: {r: number, g: number, b: number, a: number}) => {
-    let { device, format, context } = await initGPU()
-    const shader = generateShaderColor(wgpurgba(0,0,1,1))
+interface TriangleParams {
+    bg: string
+    tc: string
+    canvas: HTMLCanvasElement
+}
+
+export default async ({
+    bg,
+    tc,
+    canvas,
+}: TriangleParams) => {
+    let { device, format, context } = await initGPU(canvas)
+    const shader = generateShaderColor(wgpurgba(hexTorgb(tc)))
     const pipe = await device.createRenderPipelineAsync({
         layout: 'auto',
         vertex: {
@@ -31,7 +41,7 @@ export default async (background: {r: number, g: number, b: number, a: number}) 
     const renderPass = commandEncoder.beginRenderPass({
         colorAttachments: [{
             view,
-            clearValue: background,
+            clearValue: bg,
             loadOp: 'clear',
             storeOp: 'store',
         }] as Iterable<GPURenderPassColorAttachment>
