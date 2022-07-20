@@ -35,3 +35,12 @@ export const initGPU = async (): Promise<CFG> => {
 
     return {context, canvas, format, device}
 }
+
+export const setHex = (char: number) => {
+    let hex = char.toString(16);
+    return hex.padStart(2, "0")
+}
+  
+export const rgbToHex = (r: number, g: number, b: number) => {
+    return "#" + setHex(r) + setHex(g) + setHex(b);
+}

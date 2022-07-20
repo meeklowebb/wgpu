@@ -15,8 +15,9 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "skipLibCheck": true,
-    "types": ["@webgpu/types"],
+    "types": ["@webgpu/types", "@types/jest"],
     "jsx": "react-jsx"
   },
-  "include": ["src", "index.d.ts"]
+  "include": ["src", "index.d.ts"],
+  "exclude": ["vitest/**/__tests__/*"]
 }

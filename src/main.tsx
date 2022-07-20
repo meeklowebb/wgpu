@@ -3,7 +3,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import WebApp from './WebApp'
-import './index.css'
 
 ReactDOM.createRoot(document.getElementById('meeklo') as HTMLElement).render(
   <React.StrictMode>
