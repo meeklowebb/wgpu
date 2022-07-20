@@ -1,3 +1,5 @@
+// Copyright 2022 Michelangelo Webb. All rights reserved.
+
 export const rgba = (
     r: number, 
     g: number, 

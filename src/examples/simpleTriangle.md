@@ -27,3 +27,5 @@ Your goal on this tutorial is to draw the following on the browser:
 The code can look complicated if you are not familiar with Computer Graphics Definitions but you can learn them throughout these examples.
 
 And algo can visit my medium chanel to get a more in deep explanation of this example.
+
+Copyright 2022 Michelangelo Webb. All rights reserved.

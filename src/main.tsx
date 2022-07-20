@@ -1,9 +1,11 @@
+// Copyright 2022 Michelangelo Webb. All rights reserved.
+
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import WebApp from './WebApp'
 import './index.css'
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById('meeklo') as HTMLElement).render(
   <React.StrictMode>
     <WebApp />
   </React.StrictMode>

@@ -1,3 +1,6 @@
+
+// Copyright 2022 Michelangelo Webb. All rights reserved.
+
 import { wgpurgba, initGPU } from '../utils/'
 import { generateShaderColor } from '../shaders'
 
