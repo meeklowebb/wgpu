@@ -111,12 +111,23 @@ const vertexcoloredTriangle = async () => {
         draw(context)
     })
 
-    document.querySelector('input[type="range"]')!.addEventListener('input', (e) => {
+    document.querySelector('input[name="x"]')!.addEventListener('input', (e) => {
         const x = (e.target as HTMLInputElement).value
 
         pos[0] = -0.5 + parseFloat(x)
         pos[3] = 0 + parseFloat(x)
         pos[6] = 0.5 + parseFloat(x)
+
+        device.queue.writeBuffer(posBuffer, 0, pos, 0)
+        draw(context)
+    })
+
+    document.querySelector('input[name="y"]')!.addEventListener('input', (e) => {
+        const y = (e.target as HTMLInputElement).value
+
+        pos[1] = -0.5 + parseFloat(y)
+        pos[4] = 0.5 + parseFloat(y)
+        pos[7] = -0.5 + parseFloat(y)
 
         device.queue.writeBuffer(posBuffer, 0, pos, 0)
         draw(context)
