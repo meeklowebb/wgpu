@@ -17,26 +17,6 @@ const vertexcoloredTriangle = async () => {
     })
     let view = context.getCurrentTexture().createView()
 
-    // Buffer Group Binding so Shaders Can access external data like color
-    // const bgtcColor = new Float32Array(8)
-    // const bgtcColorBuffer = device.createBuffer({
-    //     size: bgtcColor.byteLength,
-    //     usage: GPUBufferUsage.COPY_DST
-    // })
-    // device.queue.writeBuffer(bgtcColorBuffer, 0, bgtcColor, 0)
-
-    const pos = new Float32Array([
-        -0.5, -0.5, 0.0,
-         0.0,  0.5, 0.0,
-         0.5, -0.5, 0.0,
-    ])
-    const posBuffer = device.createBuffer({
-        size: pos.byteLength,
-        usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.VERTEX
-    })
-    device.queue.writeBuffer(posBuffer, 0, pos, 0)
-
-
     // PIPE Creation
     let shader = device.createShaderModule({
         code: vertexColoredTriangle(),
@@ -65,8 +45,46 @@ const vertexcoloredTriangle = async () => {
         },
         layout: 'auto'
     })
+
+    // Create Buffer
+
+    // const bgtcColor = new Float32Array(8)
+    // const bgtcColorBuffer = device.createBuffer({
+    //     size: bgtcColor.byteLength,
+    //     usage: GPUBufferUsage.COPY_DST
+    // })
+    // device.queue.writeBuffer(bgtcColorBuffer, 0, bgtcColor, 0)
+
+    const pos = new Float32Array([
+        -0.5, -0.5, 0.0,
+         0.0,  0.5, 0.0,
+         0.5, -0.5, 0.0,
+    ])
+    const posBuffer = device.createBuffer({
+        size: pos.byteLength,
+        usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.VERTEX
+    })
+    device.queue.writeBuffer(posBuffer, 0, pos, 0)
+    /* Color Buffer*/
+    const color = new Float32Array([1,.5,.2,1])
+    const colorBuffer = device.createBuffer({
+        size: color.byteLength,
+        usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
+    })
+    device.queue.writeBuffer(colorBuffer, 0, color, 0)
+
+    // Bind buffers (Color and position)
+    const group = device.createBindGroup({
+        layout: pipe.getBindGroupLayout(0),
+        entries: [{
+            binding: 0,
+            resource: {
+                buffer: colorBuffer
+            }
+        }]
+    })
     
-    // Creation of the command encoder
+    // Creation of the command encoder (Drawing steap on the pipeline)
     const cmdEncoder = device.createCommandEncoder()
     const passEncoder = cmdEncoder.beginRenderPass({
         colorAttachments: [{
@@ -78,11 +96,12 @@ const vertexcoloredTriangle = async () => {
     })
     passEncoder.setPipeline(pipe)
     passEncoder.setVertexBuffer(0, posBuffer)
+    passEncoder.setBindGroup(0,  group)
     passEncoder.draw(3)
     passEncoder.end()
 
 
-    // Issue Commands to GPU QUEUE
+    // Issue Endoded Commands to GPU QUEUE
     device.queue.submit([cmdEncoder.finish()])
 }
 
