@@ -45,6 +45,7 @@ const vertexcoloredTriangle = async () => {
         layout: 'auto'
     })
 
+    // Buffer creation stage
     const pos = new Float32Array([
         -0.5, -0.5, 0.0,
          0.0,  0.5, 0.0,
@@ -107,6 +108,17 @@ const vertexcoloredTriangle = async () => {
         color[2] = b
 
         device.queue.writeBuffer(colorBuffer, 0, color, 0)
+        draw(context)
+    })
+
+    document.querySelector('input[type="range"]')!.addEventListener('input', (e) => {
+        const x = (e.target as HTMLInputElement).value
+
+        pos[0] = -0.5 + parseFloat(x)
+        pos[3] = 0 + parseFloat(x)
+        pos[6] = 0.5 + parseFloat(x)
+
+        device.queue.writeBuffer(posBuffer, 0, pos, 0)
         draw(context)
     })
 
