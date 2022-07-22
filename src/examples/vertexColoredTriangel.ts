@@ -41,8 +41,6 @@ const vertexcoloredTriangle = async () => {
     let shader = device.createShaderModule({
         code: vertexColoredTriangle(),
     })
-    console.log(vertexColoredTriangle());
-    
 
     let pipe = await device.createRenderPipelineAsync({
         vertex: {
