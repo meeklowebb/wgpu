@@ -2,11 +2,13 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import WebApp from './WebApp'
-import './index.css'
+//import WebApp from './WebApp'
+
+import vertexColoredTriangle from './examples/vertexColoredTriangel'
+await vertexColoredTriangle()
 
 ReactDOM.createRoot(document.getElementById('meeklo') as HTMLElement).render(
-  <React.StrictMode>
-    <WebApp />
-  </React.StrictMode>
+  <React.Fragment>
+    {/* <WebApp /> */}
+  </React.Fragment>
 )
