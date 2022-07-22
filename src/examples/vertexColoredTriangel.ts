@@ -4,8 +4,7 @@ import { initGPU } from "../utils"
 const vertexcoloredTriangle = async () => {
     console.log('React render');
     // Canvas Information and Canvas config
-    let canvas = document.createElement('canvas')
-    document.body.appendChild(canvas)
+    let canvas = document.getElementById('canvas')! as HTMLCanvasElement
     canvas.width = innerWidth
     canvas.height = innerHeight
 
@@ -15,7 +14,7 @@ const vertexcoloredTriangle = async () => {
     context.configure({
         device, format, alphaMode: 'opaque'
     })
-    let view = context.getCurrentTexture().createView()
+    //let view = context.getCurrentTexture().createView()
 
     // PIPE Creation
     let shader = device.createShaderModule({
@@ -46,15 +45,6 @@ const vertexcoloredTriangle = async () => {
         layout: 'auto'
     })
 
-    // Create Buffer
-
-    // const bgtcColor = new Float32Array(8)
-    // const bgtcColorBuffer = device.createBuffer({
-    //     size: bgtcColor.byteLength,
-    //     usage: GPUBufferUsage.COPY_DST
-    // })
-    // device.queue.writeBuffer(bgtcColorBuffer, 0, bgtcColor, 0)
-
     const pos = new Float32Array([
         -0.5, -0.5, 0.0,
          0.0,  0.5, 0.0,
@@ -84,25 +74,43 @@ const vertexcoloredTriangle = async () => {
         }]
     })
     
-    // Creation of the command encoder (Drawing steap on the pipeline)
-    const cmdEncoder = device.createCommandEncoder()
-    const passEncoder = cmdEncoder.beginRenderPass({
-        colorAttachments: [{
-            view,
-            clearValue: {r:0, g:0, b:0.5, a:1},
-            loadOp: 'clear',
-            storeOp: 'store', 
-        }]
+    const draw = (context: GPUCanvasContext) => {
+        // Creation of the command encoder (Drawing steap on the pipeline)
+        const cmdEncoder = device.createCommandEncoder()
+        const passEncoder = cmdEncoder.beginRenderPass({
+            colorAttachments: [{
+                view: context.getCurrentTexture().createView(),
+                clearValue: {r:0, g:0, b:0.5, a:1},
+                loadOp: 'clear',
+                storeOp: 'store', 
+            }]
+        })
+        passEncoder.setPipeline(pipe)
+        passEncoder.setVertexBuffer(0, posBuffer)
+        passEncoder.setBindGroup(0,  group)
+        passEncoder.draw(3)
+        passEncoder.end()
+
+        // Issue Endoded Commands to GPU QUEUE
+        device.queue.submit([cmdEncoder.finish()])
+    }
+
+    // Interactive drawing (Dynamic setup)
+    document.querySelector('input[type="color"]')!.addEventListener('input', (e) => {
+        const hexColor = (e.target as HTMLInputElement).value
+        const r = parseInt(hexColor.slice(1, 3), 16) / 255 
+        const g = parseInt(hexColor.slice(3, 5), 16) / 255
+        const b = parseInt(hexColor.slice(5, 7), 16) / 255
+
+        color[0] = r
+        color[1] = g
+        color[2] = b
+
+        device.queue.writeBuffer(colorBuffer, 0, color, 0)
+        draw(context)
     })
-    passEncoder.setPipeline(pipe)
-    passEncoder.setVertexBuffer(0, posBuffer)
-    passEncoder.setBindGroup(0,  group)
-    passEncoder.draw(3)
-    passEncoder.end()
 
-
-    // Issue Endoded Commands to GPU QUEUE
-    device.queue.submit([cmdEncoder.finish()])
+    draw(context)  // First drawing (Default setup)
 }
 
 export default vertexcoloredTriangle 
