@@ -5,7 +5,7 @@ import { wgpurgba, initGPU } from '../utils/'
 import { generateShaderColor } from '../shaders'
 
 export default async (background: {r: number, g: number, b: number, a: number}) => {
-    let { device, format, context } = await initGPU()
+    let { device, format } = await initGPU()
     const shader = generateShaderColor(wgpurgba(0,0,1,1))
     const pipe = await device.createRenderPipelineAsync({
         layout: 'auto',

@@ -2,13 +2,10 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-//import WebApp from './WebApp'
-
-import vertexColoredTriangle from './examples/vertexColoredTriangel'
-await vertexColoredTriangle()
+import WebApp from './WebApp'
 
 ReactDOM.createRoot(document.getElementById('meeklo') as HTMLElement).render(
   <React.Fragment>
-    {/* <WebApp /> */}
+    <WebApp />
   </React.Fragment>
 )

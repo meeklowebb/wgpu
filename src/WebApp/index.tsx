@@ -1,19 +1,21 @@
 // Copyright 2022 Michelangelo Webb. All rights reserved.
 
 import { useEffect } from "react"
-import vertexColoredTriangle from "../examples/vertexColoredTriangel"
+import initWGPU from "../tutorial/one/initWGPU"
 
-const VertexColoredTriangle = () => {
+const WebApp = () => {
 
     useEffect(() => {
         (async () => {
-            await vertexColoredTriangle()
+            initWGPU().then(gpu => {
+                console.log(gpu);
+            })
         })()
     }, [])
 
     return (
         <>
-            <h1>Hello Triangle</h1>
+            <h6>WebGPU Tutorial / Examples</h6>
         </>
     )
 }
@@ -21,7 +23,7 @@ const VertexColoredTriangle = () => {
 export default () => {
     return (
         <>
-            <VertexColoredTriangle />
+            <WebApp />
         </>
     )
 }
