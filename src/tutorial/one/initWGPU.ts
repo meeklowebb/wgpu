@@ -1,4 +1,4 @@
-export default async () => {
+export default async (canvas: HTMLCanvasElement) => {
     if(!('gpu' in navigator)) {
         throw Error('This browser does not support GPU')
         return
@@ -21,5 +21,8 @@ export default async () => {
 
     let format = navigator.gpu.getPreferredCanvasFormat()
 
-    return {adapter, device, format}
+    let context = canvas.getContext('webgpu')!
+    context.configure({device, format, alphaMode: 'opaque'})
+
+    return { device, format, context }
 }
