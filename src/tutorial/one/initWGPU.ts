@@ -13,7 +13,7 @@ export default async () => {
         throw Error('Unable to get adapter')
     }
 
-    let device = await adapter.requestAdapterInfo()
+    let device = await adapter.requestDevice()
 
     if(!device) {
         throw Error('Unable to get device')

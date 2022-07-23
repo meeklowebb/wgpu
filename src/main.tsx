@@ -2,7 +2,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import WebApp from './WebApp'
+import WebApp from './WebApp/WebApp'
 
 ReactDOM.createRoot(document.getElementById('meeklo') as HTMLElement).render(
   <React.Fragment>
