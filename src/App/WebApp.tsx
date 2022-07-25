@@ -1,17 +1,16 @@
 // Copyright 2022 Michelangelo Webb. All rights reserved.
 
 import { useEffect, useRef } from "react"
-import rotPoly from "../tutorial/four/rotPoly"
+import rotPoly from "../tutorial/five/rotPoly"
 
 const WebApp = () => {
 
     const canvasref = useRef<HTMLCanvasElement | null>(null)
 
     useEffect(() => {
-        rotPoly({canvas: canvasref.current!}).then( device => {
-            console.log('rotPoly run', device)
-        })
-    }, [])
+        rotPoly({canvas: canvasref.current!})
+        .catch( e => {console.log(e)})
+    })
 
     return (
         <>

@@ -7,20 +7,20 @@ export interface RotPolyArgs {
     canvas: HTMLCanvasElement
 }
 
-export default async ({canvas}: RotPolyArgs) => {
+export default async ({ canvas }: RotPolyArgs) => {
 
     // Instance
     let adapter = (await navigator.gpu.requestAdapter())!
     let device = (await adapter.requestDevice())!
     let format = navigator.gpu.getPreferredCanvasFormat()
     let context = canvas.getContext('webgpu')!
-    context.configure({format, device, alphaMode: 'opaque'})
+    context.configure({ format, device, alphaMode: 'opaque' })
 
     // Buffer for Vertex and Color
     const vxColorBufferCPU = new Float32Array(
         [
-            0.0,  0.5, 1, 0, 0,
-           -0.5, -0.5, 0, 1, 0,
+            0.0, 0.5, 1, 0, 0,
+            -0.5, -0.5, 0, 1, 0,
             0.5, -0.5, 0, 0, 1,
         ]
     )
@@ -32,7 +32,7 @@ export default async ({canvas}: RotPolyArgs) => {
     device.queue.writeBuffer(vxColorBufferGPU, 0, vxColorBufferCPU, 0)
 
     const bufferLayout: GPUVertexBufferLayout = {
-        arrayStride: 5*4,
+        arrayStride: 5 * 4,
         attributes: [
             {
                 shaderLocation: 0,
@@ -42,7 +42,7 @@ export default async ({canvas}: RotPolyArgs) => {
             {
                 shaderLocation: 1,
                 format: 'float32x3',
-                offset: 2*4,
+                offset: 2 * 4,
             }
         ]
     }
@@ -58,35 +58,35 @@ export default async ({canvas}: RotPolyArgs) => {
     })
 
     // pipeline
-    const module = device.createShaderModule({code})
+    const module = device.createShaderModule({ code })
 
     const pipelineLayout = device.createPipelineLayout({
         bindGroupLayouts: [groupLayout]
     })
 
-    const pipeline  = await device.createRenderPipelineAsync({
+    const pipeline = await device.createRenderPipelineAsync({
         layout: pipelineLayout,
         vertex: {
-                module,
-                entryPoint: 'vertex',
-                buffers: [bufferLayout]
+            module,
+            entryPoint: 'vertex',
+            buffers: [bufferLayout]
         },
         fragment: {
             module,
             entryPoint: 'fragment',
-            targets: [{format}]
+            targets: [{ format }]
         },
-        primitive: { topology: 'triangle-list'}
+        primitive: { topology: 'triangle-list' }
     })
 
     // Draw
-    
-    const encoder = device.createCommandEncoder({label: 'encoder'})
+
+    const encoder = device.createCommandEncoder({ label: 'encoder' })
     const render = encoder.beginRenderPass({
         colorAttachments: [
             {
                 view: context.getCurrentTexture().createView(),
-                clearValue: {r: 0, g: 0, b: 0, a: 1},
+                clearValue: { r: 0, g: 0, b: 0, a: 1 },
                 loadOp: 'clear',
                 storeOp: 'store',
             }
