@@ -1,3 +1,5 @@
+// Copyright 2022 Michelangelo Webb. All rights reserved.
+
 export default async (canvas: HTMLCanvasElement) => {
     if(!('gpu' in navigator)) {
         throw Error('This browser does not support GPU')

@@ -1,3 +1,5 @@
+// Copyright 2022 Michelangelo Webb. All rights reserved.
+
 import initWGPU from "../one/initWGPU"
 import shaderThree from './shaderThree.wgsl?raw'
 

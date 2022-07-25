@@ -1,22 +1,21 @@
-import { useEffect, useRef, useState } from "react"
+// Copyright 2022 Michelangelo Webb. All rights reserved.
+
+import { useEffect, useRef } from "react"
 import initWGPU from "../one/initWGPU"
 import shader from "../two/shader.wgsl?raw"
 
 export default () => {
 
-    const canvasref = useRef<HTMLCanvasElement | null>(null)
+    const canvasref = useRef<HTMLCanvasElement>(null)
 
     useEffect(() => {
-        initWGPU().then( gpu => {
+        initWGPU(canvasref.current!).then( gpu => {
             const {
                 device,
                 format,
+                context
             } = gpu!
             
-            let canvas = canvasref.current!
-            canvas.width = innerWidth * devicePixelRatio
-            canvas.height = innerHeight * devicePixelRatio
-            const context = canvasref.current?.getContext('webgpu')!
             context.configure({device, format, alphaMode: 'opaque'})
 
             const sModule = device.createShaderModule({code: shader})
