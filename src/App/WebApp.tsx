@@ -1,15 +1,17 @@
 // Copyright 2022 Michelangelo Webb. All rights reserved.
 
 import { useEffect, useRef } from "react"
-import rotPoly from "../tutorial/five/rotPoly"
+import main from "../orillusion/vertexSquare/"
 
 const WebApp = () => {
 
     const canvasref = useRef<HTMLCanvasElement | null>(null)
 
     useEffect(() => {
-        rotPoly({canvas: canvasref.current!})
-        .catch( e => {console.log(e)})
+        canvasref.current!.width = 600
+        canvasref.current!.height = 600
+        main(canvasref.current!)
+        .catch(e => console.log(e))
     })
 
     return (
