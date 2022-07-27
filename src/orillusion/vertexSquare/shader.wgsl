@@ -43,6 +43,6 @@ fn fragment(
     if (length(Pos.xy - 300.0) > r) {
         discard;
     }
-
+       
     return Col;
 }

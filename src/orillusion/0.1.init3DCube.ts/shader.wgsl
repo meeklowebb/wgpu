@@ -1,0 +1,6 @@
+
+
+@vertex
+fn vertex() {
+    
+}

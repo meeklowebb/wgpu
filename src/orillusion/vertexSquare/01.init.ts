@@ -10,9 +10,11 @@ declare interface InitOut {
 }
 
 const init = async ({canvas}: InitArgs): Promise<InitOut> => {
-    const adapter = (await navigator.gpu.requestAdapter())!
+    const adapter = (await navigator.gpu.requestAdapter({powerPreference: "high-performance"}))!
 
     const device = (await adapter.requestDevice())!
+    
+    
 
     const format = navigator.gpu.getPreferredCanvasFormat()
 
