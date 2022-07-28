@@ -1,12 +1,21 @@
 declare interface genPipelineIn {
     device: GPUDevice
     format: GPUTextureFormat
+    canvas: HTMLCanvasElement
+    vertexBufferLayout: GPUVertexBufferLayout
+    mvpUniformBuffer: GPUBuffer
 }
 declare interface genPipelineOut {
     pipeline: GPURenderPipeline
 }
 
-const genPipeline = async ({device, format} : genPipelineIn) : Promise<genPipelineOut> => {
+const genPipeline = async (args : genPipelineIn) : Promise<genPipelineOut> => {
+
+    const { 
+        device,
+        format,
+        vertexBufferLayout
+    } = args
 
     const code = (await import('./shader.wgsl?raw')).default
 
@@ -17,6 +26,7 @@ const genPipeline = async ({device, format} : genPipelineIn) : Promise<genPipeli
         vertex: {
             module,
             entryPoint: 'vertex',
+            buffers: [vertexBufferLayout],
         },
         fragment: {
             module,

@@ -1,7 +1,7 @@
 // Copyright 2022 Michelangelo Webb. All rights reserved.
 
 import { useEffect, useRef } from "react"
-import main from '../orillusion/vxcube/04.vxCubeMain'
+import main from '../orillusion/vxcube/05.vxCubeMain'
 
 const WebApp = () => {
 
